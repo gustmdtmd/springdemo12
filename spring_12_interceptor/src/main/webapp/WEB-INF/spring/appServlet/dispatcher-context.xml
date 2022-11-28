@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-4.3.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+	<!-- Controller -->
+	<bean class="part01.controller.HomeController" />
+	<bean class="part02.controller.NoticeController" />
+	<bean class="part03.controller.LoginController" />
+	<bean class="part03.controller.IndexController" />
+
+	<!-- Interceptor -->
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/list.do" />
+			<mvc:mapping path="/view.do" />
+			<mvc:mapping path="/write.do" />
+			
+			 
+			 <!-- <mvc:mapping path="/**"/> 
+			  path="/noticeList.do" 는 interceptor 제외
+			 <mvc:exclude-mapping path="/noticeList.do"/>
+			 -->
+			<bean class="part01.interceptor.SampleInterceptor" />
+		</mvc:interceptor>
+		
+		<mvc:interceptor>
+		   <mvc:mapping path="/noticeList.do"/>		
+		   <bean class="part03.interceptor.LoginInterceptor" />
+		</mvc:interceptor>
+	</mvc:interceptors>
+
+	<!-- View -->
+	<bean
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="prefix" value="/WEB-INF/views/" />
+		<property name="suffix" value=".jsp" />
+	</bean>
+</beans>
